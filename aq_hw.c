@@ -932,10 +932,8 @@ err_exit:
 }
 
 int
-aq_hw_init(struct aq_hw *hw, uint8_t *mac_addr, uint8_t adm_irq, bool msix,
-    int capenable)
+aq_hw_init(struct aq_hw *hw, uint8_t adm_irq, bool msix, int capenable)
 {
-
 	int err = 0;
 	bool rx_ip_csum_enable;
 	bool rx_l4_csum_enable;
@@ -971,7 +969,7 @@ aq_hw_init(struct aq_hw *hw, uint8_t *mac_addr, uint8_t adm_irq, bool msix,
 	aq_hw_init_tx_path(hw);
 	aq_hw_init_rx_path(hw);
 
-	aq_hw_mac_addr_set(hw, mac_addr, AQ_HW_MAC);
+	aq_hw_mac_addr_set(hw, hw->mac_addr, AQ_HW_MAC);
 
 	aq_hw_mpi_set(hw, MPI_INIT, hw->link_rate);
 

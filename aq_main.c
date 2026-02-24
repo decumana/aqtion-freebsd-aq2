@@ -808,7 +808,10 @@ aq_if_init(if_ctx_t ctx)
 	hw = &softc->hw;
 	ifp = iflib_get_ifp(ctx);
 
-	err = aq_hw_init(&softc->hw, softc->hw.mac_addr, softc->msix,
+	/* Re-sync HW MAC from current ifnet LLADDR on each init */
+	bcopy(if_getlladdr(ifp), hw->mac_addr, ETHER_ADDR_LEN);
+
+	err = aq_hw_init(&softc->hw, softc->msix,
 	    softc->scctx->isc_intr == IFLIB_INTR_MSIX,
 	    if_getcapenable(ifp));
 	if (err != EOK) {
